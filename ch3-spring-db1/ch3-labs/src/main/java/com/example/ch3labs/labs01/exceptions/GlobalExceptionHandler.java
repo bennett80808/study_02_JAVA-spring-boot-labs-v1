@@ -1,6 +1,6 @@
-package com.example.ch2labs.labs09.exceptions;
+package com.example.ch3labs.labs01.exceptions;
 
-import com.example.ch2labs.labs09.DTO.ErrorResponseDTO;
+import com.example.ch3labs.labs01.DTO.ErrorResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
