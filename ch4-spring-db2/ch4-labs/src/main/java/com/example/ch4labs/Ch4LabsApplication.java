@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = "com.example.ch4labs.labs02")
-@EnableJpaRepositories(basePackages = "com.example.ch4labs.labs02")
-@EntityScan(basePackages = "com.example.ch4labs.labs02")
+@SpringBootApplication(scanBasePackages = "com.example.ch4labs.labs03")
+@EnableJpaRepositories(basePackages = "com.example.ch4labs.labs03")
+@EntityScan(basePackages = "com.example.ch4labs.labs03")
 public class Ch4LabsApplication {
 
     public static void main(String[] args) {
