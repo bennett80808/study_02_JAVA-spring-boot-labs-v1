@@ -1,30 +1,34 @@
 package com.example.ch4labs.labs03.dto;
 
-import com.example.ch4labs.labs03.dto.ReviewResponse;
-import com.example.ch4labs.labs03.dto.ReviewSearchRequest;
+import com.example.ch4labs.labs03.domain.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ReviewPageResponse {
-
-    private int page;
+    private List<ReviewResponse> content;
+    private long totalElement;
+    private long totalPages;
     private int size;
-    private long totalCount;
-    private int totalPages;
-    private List<com.example.ch4labs.labs03.dto.ReviewResponse> posts;
+    private int page;
 
-    public static ReviewPageResponse from(List<ReviewResponse> reviews, ReviewSearchRequest search, Long count) {
-        int totalPages = (int) Math.ceil((double) count / search.getSize());
-        return new ReviewPageResponse(
-                search.getPage(),
-                search.getSize(),
-                count,
-                totalPages,
-                reviews
-        );
+
+    public static ReviewPageResponse from(Page<Review> reviewPage, int page) {
+        ReviewPageResponse reviewPageResponse = new ReviewPageResponse();
+        reviewPageResponse.setContent(reviewPage.getContent().stream().map(ReviewResponse::from).collect(Collectors.toList()));
+        reviewPageResponse.setTotalElement(reviewPage.getTotalElements());
+        reviewPageResponse.setTotalPages(reviewPage.getTotalPages());
+        reviewPageResponse.setSize(reviewPage.getSize());
+        reviewPageResponse.setPage(page);
+        return reviewPageResponse;
+
     }
+
 }

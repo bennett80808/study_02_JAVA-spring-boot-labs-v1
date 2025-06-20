@@ -2,80 +2,51 @@ package com.example.ch4labs.labs03.service;
 
 import com.example.ch4labs.labs03.domain.Review;
 import com.example.ch4labs.labs03.dto.*;
-import com.example.ch4labs.labs03.repository.ReviewRepository;
+import com.example.ch4labs.labs03.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ReviewService {
+    private final ReviewRepository reviewRepository;
 
-    // mapper -> JPA repository
-    private final ReviewRepository postRepository;
+    public ReviewResponse createReview(ReviewCreateRequest reviewCreateRequest) {
+        Review save = reviewRepository.save(reviewCreateRequest.toDomain());
 
-    public ReviewResponse createReview(ReviewCreateRequest request) {
-        Review review = request.toDomain();
-        Review saved = postRepository.save(review);
-        return ReviewResponse.from(saved);
+        return ReviewResponse.from(save);
     }
 
-    @Transactional(readOnly = true)
-    public List<ReviewResponse> getAllReviews() {
-        return postRepository.findAll().stream()
-                .map(reivew -> ReviewResponse.from(reivew))
-                .toList();
+
+    public ReviewPageResponse findAll(ReviewSearchRequest reviewSearchRequest) {
+        Page<Review> search = reviewRepository.search(reviewSearchRequest);
+
+        return ReviewPageResponse.from(search, reviewSearchRequest.getPage());
     }
 
-    @Transactional(readOnly = true)
-    public ReviewResponse getReviewById(Long id) {
-        return postRepository.findById(id)
-                .map(ReviewResponse::from)
-                // map(post -> PostResponse.from(post))
-                .orElseThrow(() -> new NoSuchElementException("리뷰가 존재하지 않습니다."));
-    }
-//@Transactional
-    public ReviewResponse updateReview(Long id, ReviewUpdateRequest request) {
-        Review review = postRepository.findById(id)
-                        .orElseThrow(() -> new NoSuchElementException("리뷰가 존재하지 않습니다."));
-
-        // 트랜젝션이 끝날 때
-        // 변경이 일어나면 dirty checking -> SQL
-
+    public ReviewResponse update(long id, ReviewUpdateRequest reviewUpdateRequest) {
+        Review review = new Review();
         review.setId(id);
-        review.setTitle(request.getTitle());
-        review.setContent(request.getContent());
-        review.setContent(request.getContent());
-        review.setAuthor(request.getAuthor());
-        review.setBookTitle(request.getBookTitle());
-        review.setBookAuthor(request.getBookAuthor());
-        review.setRating(request.getRating());
-        // 메서드 끝나면서 트랜잭션 커밋
-        // setter로 저장한게
-        // JPA가 변경 감지 → UPDATE 쿼리 자동 실행
-        //  = DB에 save 안해도 save 동작을 함.
-        return ReviewResponse.from(review);
+        review.setTitle(reviewUpdateRequest.getTitle());
+        review.setContent(reviewUpdateRequest.getContent());
+        review.setAuthor(reviewUpdateRequest.getAuthor());
+        review.setBookTitle(reviewUpdateRequest.getBookTitle());
+        review.setBookAuthor(reviewUpdateRequest.getBookAuthor());
+        review.setRating(reviewUpdateRequest.getRating());
+
+        Review updated = reviewRepository.save(review);
+
+        return ReviewResponse.from(updated);
     }
 
-    @Transactional(readOnly = true)
-    public ReviewPageResponse getAllReivews(ReviewSearchRequest request) {
-
-        Page<ReviewResponse> page = postRepository.search(request);
-
-        return ReviewPageResponse.from(page.getContent(), request, page.getTotalElements());
+    public void delete(long id) {
+        Review reviewById = getReviewById(id);
+        reviewRepository.delete(reviewById);
     }
 
-    public void deletePost(Long id) {
-        postRepository.deleteById(id);
+    public Review getReviewById(long id) {
+        return reviewRepository.findById(id).orElse(null);
     }
-
-
-
 }
