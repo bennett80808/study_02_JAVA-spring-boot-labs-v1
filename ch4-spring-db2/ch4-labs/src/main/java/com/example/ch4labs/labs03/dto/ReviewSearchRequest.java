@@ -1,8 +1,6 @@
 package com.example.ch4labs.labs03.dto;
 
-
-import com.example.ch4labs.labs03.enums.ReviewSort;
-import com.example.ch4labs.labs03.enums.SortDirection;
+import com.example.ch4labs.labs03.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

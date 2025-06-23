@@ -1,6 +1,5 @@
 package com.example.ch4labs.labs03.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +13,6 @@ public class ReviewUpdateRequest {
     private String author;
     private String bookTitle;
     private String bookAuthor;
-    private Integer rating;
+    private int rating;
+
 }

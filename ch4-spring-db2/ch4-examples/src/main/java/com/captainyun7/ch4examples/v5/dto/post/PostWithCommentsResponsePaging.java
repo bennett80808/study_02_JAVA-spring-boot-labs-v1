@@ -19,9 +19,7 @@ public class PostWithCommentsResponsePaging {
     public static PostWithCommentsResponsePaging from(Post post, CommentPageResponse commentPage) {
         return PostWithCommentsResponsePaging.builder()
                 .post(PostResponse.from(post))
-                .commentPage(
-                commentPage
-                )
+                .commentPage(commentPage)
                 .build();
     }
 }

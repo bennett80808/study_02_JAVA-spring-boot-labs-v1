@@ -1,14 +1,13 @@
 package com.example.ch4labs.labs03.dto;
 
-
 import com.example.ch4labs.labs03.domain.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class ReviewCreateRequest {
     private String title;
     private String content;
@@ -19,12 +18,12 @@ public class ReviewCreateRequest {
 
     public Review toDomain() {
         Review review = new Review();
-        review.setTitle(title);
-        review.setContent(content);
-        review.setAuthor(author);
-        review.setBookTitle(bookTitle);
-        review.setBookAuthor(bookAuthor);
-        review.setRating(rating);
+        review.setTitle(this.title);
+        review.setContent(this.content);
+        review.setAuthor(this.author);
+        review.setBookTitle(this.bookTitle);
+        review.setBookAuthor(this.bookAuthor);
+        review.setRating(this.rating);
         return review;
     }
 }

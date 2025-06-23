@@ -3,7 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/post_db
     username: root
     password: pass1234
-
+  web:
+    resources:
+      add-mappings: false
   jpa:
     hibernate:
       ddl-auto: update

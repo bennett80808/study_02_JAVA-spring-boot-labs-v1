@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewResponse {
-    private long id;
+    private Long id;             // 저장된 리뷰의 식별자
     private String title;
     private String content;
     private String author;
@@ -17,16 +17,15 @@ public class ReviewResponse {
     private String bookAuthor;
     private int rating;
 
-
     public static ReviewResponse from(Review review) {
-        ReviewResponse reviewResponse = new ReviewResponse();
-        reviewResponse.setId(review.getId());
-        reviewResponse.setTitle(review.getTitle());
-        reviewResponse.setContent(review.getContent());
-        reviewResponse.setAuthor(review.getAuthor());
-        reviewResponse.setBookTitle(review.getBookTitle());
-        reviewResponse.setBookAuthor(review.getBookAuthor());
-        reviewResponse.setRating(review.getRating());
-        return reviewResponse;
+        return new ReviewResponse(
+                review.getId(),
+                review.getTitle(),
+                review.getContent(),
+                review.getAuthor(),
+                review.getBookTitle(),
+                review.getBookAuthor(),
+                review.getRating()
+        );
     }
 }
